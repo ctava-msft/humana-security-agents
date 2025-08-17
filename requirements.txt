@@ -1,0 +1,56 @@
+# Dependencies in alphabetical order
+aiohttp                                      # Async HTTP client/server framework
+asyncio                                      # Async I/O support
+azure-ai-contentsafety                       # Azure content safety services
+azure-ai-evaluation                          # Azure AI model evaluation tools
+azure-ai-inference                           # For Azure OpenAI chat completions
+azure-ai-inference[opentelemetry]            # Azure AI inference with OpenTelemetry support
+azure-ai-ml                                  # Azure AI ML integration
+azure-ai-projects                            # Azure AI project management
+azure-core-tracing-opentelemetry             # Azure core OpenTelemetry tracing
+azure-cosmos>=4.5.0                          # For Cosmos DB operations (version that supports enable_cross_partition)
+azure-functions>=1.18.0                      # Azure Functions runtime and core dependencies
+azure-identity>=1.15.0                       # For Azure authentication (DefaultAzureCredential)
+azure-monitor-opentelemetry                  # Azure Monitor OpenTelemetry integration
+azure-search-documents                       # Azure AI Search integration
+ipykernel                                    # IPython kernel for Jupyter
+jupyter                                      # Jupyter notebook interface
+mkdocs-git-committers-plugin-2               # Git committers information
+mkdocs-git-revision-date-localized-plugin    # Localized Git revision dates
+mkdocs-git-revision-date-plugin              # Git revision date display
+mkdocs-glightbox                             # Image lightbox enhancement
+mkdocs-jupyter                               # Jupyter notebook integration
+mkdocs-macros-plugin                         # Macros support for MkDocs
+mkdocs-material                              # Material theme for MkDocs
+mkdocs-minify-plugin                         # Minification of HTML/CSS/JS
+mkdocs-open-in-new-tab                       # Open links in new tabs
+mkdocs-render-swagger-plugin                 # Swagger/OpenAPI documentation
+mkdocs-table-reader-plugin                   # Table reading capabilities
+mkdocs-video                                 # Video embedding support
+nbformat                                     # Notebook format conversion
+notebook                                     # Jupyter notebook core
+openai>=1.12.0                               # OpenAI SDK with Azure support
+opentelemetry-exporter-otlp                  # OpenTelemetry protocol exporter
+opentelemetry-sdk                            # OpenTelemetry SDK
+pandas                                       # Data manipulation library
+pytest                                       # Core testing framework
+pytest-asyncio                               # Async testing support
+python-dotenv>=1.0.0                         # Environment variable management
+tabulate                                     # Pretty-print tabular data
+typing                                       # Type hinting support
+asyncio                                      # Async I/O support
+typing                                       # Type hinting support
+
+# Documentation Tools (MkDocs and plugins)
+mkdocs-material                              # Material theme for MkDocs
+mkdocs-render-swagger-plugin                 # Swagger/OpenAPI documentation
+mkdocs-macros-plugin                         # Macros support for MkDocs
+mkdocs-glightbox                             # Image lightbox enhancement
+mkdocs-open-in-new-tab                       # Open links in new tabs
+mkdocs-video                                 # Video embedding support
+mkdocs-table-reader-plugin                   # Table reading capabilities
+mkdocs-minify-plugin                         # Minification of HTML/CSS/JS
+mkdocs-jupyter                               # Jupyter notebook integration
+mkdocs-git-committers-plugin-2               # Git committers information
+mkdocs-git-revision-date-localized-plugin    # Localized Git revision dates
+mkdocs-git-revision-date-plugin              # Git revision date display

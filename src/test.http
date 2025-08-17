@@ -1,0 +1,137 @@
+### Security Agent Service with MCP Tools API Test Suite
+# This file contains HTTP requests for testing the Security Agent Service Azure Functions endpoints.
+# It demonstrates typical usage scenarios:
+# - Security analysis and threat detection
+# - MCP tool operations
+# - Agent configuration and management
+# - System health monitoring
+
+### Security Analysis Operations
+
+### Analyze security event
+POST https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/analyze-security-event
+Content-Type: application/json
+
+{
+    "eventType": "unauthorized_access",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "source": "10.0.1.45",
+    "target": "database-server-01",
+    "details": "Multiple failed login attempts detected"
+}
+
+### Run threat detection scan
+POST https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/threat-detection
+Content-Type: application/json
+
+{
+    "scanType": "network",
+    "targets": ["subnet-01", "subnet-02"],
+    "depth": "comprehensive"
+}
+
+### Check security compliance
+POST https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/compliance-check
+Content-Type: application/json
+
+{
+    "standard": "NIST",
+    "resources": ["webapp-01", "storage-account-01"],
+    "includeRecommendations": true
+}
+
+### MCP Tool Operations
+
+### List available MCP tools
+GET https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/mcp/tools
+
+### Execute MCP tool
+POST https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/mcp/execute
+Content-Type: application/json
+
+{
+    "toolName": "vulnerability-scanner",
+    "parameters": {
+        "target": "https://app.example.com",
+        "scanDepth": "full",
+        "reportFormat": "json"
+    }
+}
+
+### Get MCP tool status
+GET https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/mcp/status/vulnerability-scanner
+
+### Agent Management Operations
+
+### Get security agents status
+GET https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/agents/status
+
+### Deploy security agent
+POST https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/agents/deploy
+Content-Type: application/json
+
+{
+    "agentType": "endpoint-protection",
+    "targetResources": ["vm-01", "vm-02"],
+    "configuration": {
+        "scanInterval": 300,
+        "alertThreshold": "medium",
+        "autoRemediate": true
+    }
+}
+
+### Update agent configuration
+PATCH https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/agents/config/agent-01
+Content-Type: application/json
+
+{
+    "scanInterval": 600,
+    "alertThreshold": "high",
+    "enableRealTimeProtection": true
+}
+
+### Security Incident Management
+
+### Report security incident
+POST https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/incidents/report
+Content-Type: application/json
+
+{
+    "severity": "high",
+    "type": "data_breach_attempt",
+    "affectedResources": ["database-01"],
+    "description": "Suspicious query patterns detected attempting to extract sensitive data",
+    "timestamp": "2024-01-15T14:22:00Z"
+}
+
+### Get incident details
+GET https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/incidents/INC-2024-001
+
+### Health and Monitoring
+
+### Health check endpoint
+GET https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/health
+
+### Get system metrics
+GET https://func-api-zkiig7k4hbbf6.azurewebsites.net/api/metrics?period=1h
+
+### API Management Endpoints (replace with your APIM URL)
+
+### Security analysis via APIM
+POST https://your-apim-service.azure-api.net/security/analyze-event
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: YOUR-SUBSCRIPTION-KEY
+
+{
+    "eventType": "malware_detected",
+    "source": "endpoint-045",
+    "severity": "critical"
+}
+
+### MCP tools via APIM
+GET https://your-apim-service.azure-api.net/security/mcp/tools
+Ocp-Apim-Subscription-Key: YOUR-SUBSCRIPTION-KEY
+
+### Health check via APIM
+GET https://your-apim-service.azure-api.net/security/health
+Ocp-Apim-Subscription-Key: YOUR-SUBSCRIPTION-KEY

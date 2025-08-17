@@ -1,0 +1,51 @@
+local.settings.json
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Azure Functions
+bin/
+obj/
+appsettings.json
+.python_packages/
+.funcignore
+
+# IDE
+.idea/
+.vs/
+*.swp
+*.swo
+
+# Local development
+**/repomix-output.xml
+.env
+.env.local
+.env.*.local
+
+__azurite_db_blob__.json
+
+__azurite_db_blob_extent__.json
+
+__blobstorage__/
+src/nohup.out

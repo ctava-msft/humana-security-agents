@@ -1,0 +1,33 @@
+{
+  "name": "Send-Incidents-To-Function-App",
+  "displayName": "Send Security Incidents to Function App",
+  "description": "Automatically sends security incidents to the Function App for analysis and action plan generation",
+  "enabled": true,
+  "order": 1,
+  "triggeringLogic": {
+    "isEnabled": true,
+    "triggersOn": "Incidents",
+    "triggersWhen": "Created",
+    "conditions": [
+      {
+        "conditionType": "Property",
+        "conditionProperties": {
+          "propertyName": "IncidentSeverity",
+          "operator": "In",
+          "propertyValues": ["High", "Critical", "Medium"]
+        }
+      }
+    ]
+  },
+  "actions": [
+    {
+      "order": 1,
+      "actionType": "RunPlaybook",
+      "actionConfiguration": {
+        "triggerUri": "https://<your-function-app>.azurewebsites.net/api/sentinel-receiver?code=<your-function-key>",
+        "logicAppResourceId": null,
+        "tenantId": null
+      }
+    }
+  ]
+}
