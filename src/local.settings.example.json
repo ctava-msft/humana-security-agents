@@ -9,7 +9,7 @@
     "COSMOSDB_CONTAINER_NAME": "incidents",
     "COSMOSDB_DATABASE_NAME": "securitydata",
     "FUNCTIONS_WORKER_RUNTIME": "python",
-    "OPENAI_MODEL_NAME": "gpt-5",
+    "OPENAI_MODEL_NAME": "gpt-4o",
     "PYTHON_ENABLE_WORKER_EXTENSIONS": "True"
   }
 }

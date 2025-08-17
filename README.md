@@ -23,7 +23,7 @@ urlFragment: security-agent
 
 Security Agent is an **Azure Functions**–based reference application that provides intelligent security monitoring, threat detection, and incident response capabilities. The service exposes functionality through **MCP (Model Context Protocol) tools** consumable by GitHub Copilot Chat and other MCP‑aware clients, and provides a secure API gateway through **Azure API Management**.
 
-* **Natural Language Security Queries** – converts plain English queries to security insights using **Azure OpenAI gpt-5**
+* **Natural Language Security Queries** – converts plain English queries to security insights using **Azure OpenAI gpt-4o**
 * **Security Event Storage** – persists security events and incidents in **Cosmos DB**
 * **Secure API Gateway** – exposes endpoints through **Azure API Management** with rate limiting and authentication
 * **MCP Protocol Support** – integrates with GitHub Copilot and other AI assistants as interactive tools
@@ -34,7 +34,7 @@ The project ships with reproducible **azd** infrastructure, so `azd up` will sta
 
 ## Features
 
-* **Threat Detection** – analyze security events using gpt-5 for anomaly detection
+* **Threat Detection** – analyze security events using gpt-4o for anomaly detection
 * **Security Event Query** – query security incidents with natural language interface
 * **Incident Response** – automated incident classification and response recommendations
 * **Secure API Gateway** – Azure API Management with rate limiting and authentication
@@ -160,7 +160,7 @@ The solution uses a serverless architecture with these Azure services:
 
 - **Azure Functions** - Serverless compute hosting the API endpoints
 - **Azure Cosmos DB** - NoSQL database storing security events and incidents
-- **Azure OpenAI** - gpt-5 model for threat analysis and natural language processing
+- **Azure OpenAI** - gpt-4o model for threat analysis and natural language processing
 - **Azure API Management** - Secure API gateway with rate limiting
 - **Application Insights** - Monitoring, logging, and security audit trails
 

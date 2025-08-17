@@ -21,13 +21,14 @@ param applicationInsightsName string = ''
 param logAnalyticsName string = ''
 param resourceGroupName string = ''
 param storageAccountName string = ''
+param apimServiceName string = ''
+param logicAppName string = ''
 
 param cosmosDatabaseName string = 'securitydata'
 param cosmosContainerName string = 'security_records'
-param apimServiceName string = ''
 
-@allowed(['gpt-5'])
-param chatModelName string = 'gpt-5'
+@allowed(['gpt-4o'])
+param chatModelName string = 'gpt-4o'
 
 @allowed(['text-embedding-3-small'])
 param embeddingModelName string = 'text-embedding-3-small'
@@ -40,6 +41,7 @@ var functionAppName = !empty(apiServiceName) ? apiServiceName : '${abbrs.webSite
 var deploymentStorageContainerName = 'app-package-${take(functionAppName, 32)}-${take(toLower(uniqueString(functionAppName, resourceToken)), 7)}'
 
 var storageAccountActualName = !empty(storageAccountName) ? storageAccountName : '${abbrs.storageStorageAccounts}${resourceToken}'
+var logicAppActualName = !empty(logicAppName) ? logicAppName : '${abbrs.logicWorkflows}${resourceToken}'
 
 // Organize resources in a resource group
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
@@ -56,6 +58,17 @@ module apiUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
     location: location
     tags: tags
     name: !empty(apiUserAssignedIdentityName) ? apiUserAssignedIdentityName : '${abbrs.managedIdentityUserAssignedIdentities}api-${resourceToken}'
+  }
+}
+
+// User assigned managed identity to be used by the Logic App
+module logicAppUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+  name: 'logicAppUserAssignedIdentity'
+  scope: rg
+  params: {
+    location: location
+    tags: tags
+    name: '${abbrs.managedIdentityUserAssignedIdentities}logic-${resourceToken}'
   }
 }
 
@@ -146,7 +159,7 @@ module openai './app/ai/cognitive-services.bicep' = {
 }
 
 // Azure Cosmos DB for security data storage
-module cosmosDb './app/security-cosmos-db.bicep' = {
+module cosmosDb './app/cosmos-db.bicep' = {
   name: 'cosmosDb'
   scope: rg
   params: { 
@@ -214,6 +227,19 @@ module apiManagement './app/apim.bicep' = {
   }
 }
 
+// Logic App for workflow automation
+module logicApp './app/logic-app.bicep' = {
+  name: 'logicApp'
+  scope: rg
+  params: {
+    name: logicAppActualName
+    location: location
+    tags: tags
+    userAssignedIdentityId: logicAppUserAssignedIdentity.outputs.resourceId
+    storageAccountName: storage.outputs.name
+  }
+}
+
 module api './app/api.bicep' = {
   name: 'api'
   scope: rg
@@ -244,6 +270,28 @@ module api './app/api.bicep' = {
     aiProjectRoleAssignmentApi
     openAiRoleAssignmentApi
   ]
+}
+
+// Allow Logic App to access Cosmos DB
+module cosmosDbRoleAssignmentLogicApp './app/rbac/cosmos-access.bicep' = {
+  name: 'cosmosDbRoleAssignmentLogicApp'
+  scope: rg
+  params: {
+    cosmosDbAccountName: cosmosDb.outputs.accountName
+    roleDefinitionId: '00000000-0000-0000-0000-000000000002' // Cosmos DB Built-in Data Contributor
+    principalId: logicAppUserAssignedIdentity.outputs.principalId
+  }
+}
+
+// Allow Logic App to access Storage
+module blobRoleAssignmentLogicApp 'app/rbac/storage-access.bicep' = {
+  name: 'blobRoleAssignmentLogicApp'
+  scope: rg
+  params: {
+    storageAccountName: storage.outputs.name
+    roleDefinitionID: StorageBlobDataOwner
+    principalID: logicAppUserAssignedIdentity.outputs.principalId
+  }
 }
 
 // ==================================
@@ -283,3 +331,12 @@ output COSMOSDB_CONTAINER_NAME string = cosmosContainerName
 
 @description('Azure OpenAI service name for key retrieval.')
 output AZURE_OPENAI_SERVICE_NAME string = openai.outputs.aiServicesName
+
+@description('Logic App name for automation workflows.')
+output LOGIC_APP_NAME string = logicApp.outputs.name
+
+@description('Logic App trigger URL for external invocation.')
+output LOGIC_APP_TRIGGER_URL string = logicApp.outputs.triggerUrl
+
+@description('Logic App managed identity client ID.')
+output LOGIC_APP_CLIENT_ID string = logicAppUserAssignedIdentity.outputs.clientId

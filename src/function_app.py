@@ -16,7 +16,7 @@
 # 3. Azure OpenAI - Provides AI models for incident analysis
 #    - Analyzes security incidents and generates action plans
 #    - Converts natural language queries to SQL for incident search
-#    - Uses gpt-5 for intelligent analysis and recommendations
+#    - Uses gpt-4o for intelligent analysis and recommendations
 #
 # 4. Azure API Management - Secure API gateway
 #    - Rate limiting, authentication, and monitoring
@@ -228,7 +228,7 @@ class SentinelIncidentProcessor:
         {json.dumps(entities[:5], indent=2) if entities else 'No entities'}"""
         
         try:
-            model_name = os.getenv(OPENAI_MODEL_NAME_ENV, "gpt-5")
+            model_name = os.getenv(OPENAI_MODEL_NAME_ENV, "gpt-4o")
             
             response = await self.openai_client.chat.completions.create(
                 model=model_name,
@@ -388,7 +388,7 @@ class SentinelIncidentProcessor:
         Convert this query to CosmosDB SQL: {natural_language_query}"""
         
         try:
-            model_name = os.getenv(OPENAI_MODEL_NAME_ENV, "gpt-5")
+            model_name = os.getenv(OPENAI_MODEL_NAME_ENV, "gpt-4o")
             
             response = await self.openai_client.chat.completions.create(
                 model=model_name,

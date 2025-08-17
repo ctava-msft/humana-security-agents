@@ -23,13 +23,14 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.pyc
 
 # Azure Functions
 bin/
 obj/
 appsettings.json
 .python_packages/
-.funcignore
+.azure/
 
 # IDE
 .idea/
@@ -44,8 +45,21 @@ appsettings.json
 .env.*.local
 
 __azurite_db_blob__.json
-
 __azurite_db_blob_extent__.json
-
 __blobstorage__/
 src/nohup.out
+
+# Python virtual environments and cache
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.pytest_cache/
+
+deployment/

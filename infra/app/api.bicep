@@ -47,6 +47,10 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing
   name: applicationInsightsName
 }
 
+// Role definitions
+var websiteContributorRoleId = 'de139f84-1756-47ae-9be6-808fbbe84772'
+var storageBlobDataOwnerRoleId = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'
+
 module api 'br/public:avm/res/web/site:0.15.1' = {
   name: '${serviceName}-functions-module'
   params: {
@@ -94,6 +98,7 @@ module api 'br/public:avm/res/web/site:0.15.1' = {
         AzureWebJobsFeatureFlags: 'EnableWorkerIndexing'
         AZURE_OPENAI_KEY: listKeys(aiServicesId, '2023-10-01-preview').key1
         PYTHON_ENABLE_WORKER_EXTENSIONS: '1'
+        PYTHON_ISOLATE_WORKER_DEPENDENCIES: '1'
         AZURE_CLIENT_ID: identityClientId
         FUNCTIONS_EXTENSION_VERSION: '~4'
         AzureWebJobsDisableHomepage: 'true'
@@ -124,6 +129,28 @@ module api 'br/public:avm/res/web/site:0.15.1' = {
         runtimeVersion: '~1'
       }
     }
+  }
+}
+
+// Grant Website Contributor role to the managed identity on the Function App
+resource websiteContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (identityType == 'UserAssigned') {
+  name: guid(api.name, identityId, websiteContributorRoleId)
+  scope: resourceGroup()
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', websiteContributorRoleId)
+    principalId: reference(identityId, '2023-01-31').principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Grant Storage Blob Data Owner role to the managed identity on the storage account
+resource storageBlobDataOwnerRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (identityType == 'UserAssigned') {
+  name: guid(stg.id, identityId, storageBlobDataOwnerRoleId)
+  scope: stg
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataOwnerRoleId)
+    principalId: reference(identityId, '2023-01-31').principalId
+    principalType: 'ServicePrincipal'
   }
 }
 

@@ -9,15 +9,19 @@ services:
     language: python
     host: function
 
+infra:
+  parameters:
+    # Explicitly disable retention for diagnostic configurations
+    diagnosticSettingsRetentionEnabled: false
+    # Ensure diagnostic settings use the new format without retention
+    diagnosticSettingsRetentionDays: 0
+    # Use Log Analytics workspace instead of storage account retention
+    useLogAnalyticsWorkspace: true
+
 hooks:
   postprovision:
     windows:
       shell: pwsh
-      run: ./scripts/generate-settings.ps1
-      interactive: true
-      continueOnError: false
-    posix:
-      shell: sh
-      run: ./scripts/generate-settings.sh
+      run: ./scripts/post-provision.ps1
       interactive: true
       continueOnError: false

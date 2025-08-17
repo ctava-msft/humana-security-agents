@@ -20,7 +20,7 @@ param embeddingModelSkuName string = 'Standard'
 param embeddingModelCapacity int = 100
 
 @description('The chat model name to deploy')
-param chatModelName string = 'gpt-5'
+param chatModelName string = 'gpt-4o'
 
 @description('The chat model format')
 param chatModelFormat string = 'OpenAI'
